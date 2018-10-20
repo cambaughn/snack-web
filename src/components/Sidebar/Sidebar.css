@@ -1,0 +1,12 @@
+.sidebar-container {
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+.header {
+  margin-bottom: 30px;
+}
+
+.link {
+  cursor: pointer;
+}
