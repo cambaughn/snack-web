@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 
 import './Lessons.css';
+import LessonListItem from './LessonListItem';
 
-
-class Lessons extends Component {
+class LessonList extends Component {
 
   render() {
     return (
       <div className='lessons-container'>
         { this.props.lessons.map(lesson => (
-          <div key={lesson.id} className='link'>
-            <p>{lesson.name}</p>
-          </div>
+          <LessonListItem lesson={lesson} key={lesson.id} />
         ))}
       </div>
     );
   }
 }
 
-export default Lessons;
+export default LessonList;

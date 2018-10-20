@@ -1,5 +1,20 @@
 .lessons-container {
   padding-top: 100px;
   padding-left: 30px;
+  padding-right: 30px;
 
+  width: 200px;
+
+}
+
+.lesson-link {
+  height: 50px;
+  margin-top: 20;
+  margin-bottom: 20;
+
+  border-bottom: 1px solid #dfe6e9;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
