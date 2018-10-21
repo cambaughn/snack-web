@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './Packs.css';
 
 
-class Sidebar extends Component {
+class Packs extends Component {
 
   render() {
     return (
@@ -22,4 +22,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export default Packs;

@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Packs from './Packs/Packs';
-import LessonList from './Lessons/LessonList';
+import LessonList from './Lesson/LessonList';
+import QuestionList from './Question/QuestionList';
 
 import db from '../firebase/firebaseInit.js';
 
@@ -14,7 +15,9 @@ class App extends Component {
     this.state = {
       packs: [],
       lessons: [],
-      questions: []
+      questions: [],
+      focusedPackId: null,
+      focusedLessonId: null
     }
 
     db.collection('packs').get()
@@ -32,6 +35,9 @@ class App extends Component {
   }
 
   getLessons = (packId) => {
+
+    this.setState({ focusedPackId: packId });
+
     db.collection('lessons').where('pack_id', '==', packId).get()
     .then(snapshot => {
       let lessons = snapshot.docs.map(doc => {
@@ -44,29 +50,37 @@ class App extends Component {
     })
   }
 
-  getLessonContent = (lessonId, lessonType) => {
-    if (lessonType === 'reading') {
-      // just return the text on the lesson object
-    } else if (lessonType === 'drill') {
-      db.collection('questions').where('lessonId', '==', lessonId).get()
-      .then(snapshot => {
-        let questions = snapshot.docs.map(doc => {
-          return { ...doc.data(), id: doc.id }
-        });
-        console.log('Questions => ', questions)
-        // this.setState({ lessons });
-      })
-      .catch(error => {
-        console.log('Error => ', error);
-      })
-    }
+  getQuestions = (lessonId) => {
+
+    this.setState({ focusedLessonId: lessonId });
+
+    db.collection('questions').where('lesson_id', '==', lessonId).get()
+    .then(snapshot => {
+      let questions = snapshot.docs.map(doc => {
+        return { ...doc.data(), id: doc.id }
+      });
+      console.log('Questions => ', questions)
+      this.setState({ questions })
+    })
+    .catch(error => {
+      console.log('Error => ', error);
+    })
   }
+
 
   render() {
     return (
       <div className="app-container">
         <Packs packs={this.state.packs} getLessons={this.getLessons} />
-        <LessonList lessons={this.state.lessons} />
+
+        { this.state.lessons.length > 0 &&
+          <LessonList lessons={this.state.lessons} getQuestions={this.getQuestions} />
+        }
+
+        { this.state.focusedLessonId &&
+          <QuestionList questions={this.state.questions} />
+        }
+
       </div>
     );
   }
