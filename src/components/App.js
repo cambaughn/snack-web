@@ -4,7 +4,7 @@ import './App.css';
 
 import Packs from './Packs/Packs';
 import LessonList from './Lesson/LessonList';
-import QuestionList from './Question/QuestionList';
+import LessonContentContainer from './Lesson/LessonContentContainer';
 
 import db from '../firebase/firebaseInit.js';
 
@@ -17,7 +17,7 @@ class App extends Component {
       lessons: [],
       questions: [],
       focusedPackId: null,
-      focusedLessonId: null
+      focusedLesson: null
     }
 
     db.collection('packs').get()
@@ -33,6 +33,7 @@ class App extends Component {
       this.setState({ packs });
     })
   }
+
 
   getLessons = (packId) => {
 
@@ -50,21 +51,8 @@ class App extends Component {
     })
   }
 
-  getQuestions = (lessonId) => {
-
-    this.setState({ focusedLessonId: lessonId });
-
-    db.collection('questions').where('lesson_id', '==', lessonId).get()
-    .then(snapshot => {
-      let questions = snapshot.docs.map(doc => {
-        return { ...doc.data(), id: doc.id }
-      });
-      console.log('Questions => ', questions)
-      this.setState({ questions })
-    })
-    .catch(error => {
-      console.log('Error => ', error);
-    })
+  setFocusedLesson = (focusedLesson) => {
+    this.setState({ focusedLesson });
   }
 
 
@@ -74,11 +62,11 @@ class App extends Component {
         <Packs packs={this.state.packs} getLessons={this.getLessons} />
 
         { this.state.lessons.length > 0 &&
-          <LessonList lessons={this.state.lessons} getQuestions={this.getQuestions} />
+          <LessonList lessons={this.state.lessons} setFocusedLesson={this.setFocusedLesson} />
         }
 
-        { this.state.focusedLessonId &&
-          <QuestionList questions={this.state.questions} />
+        { this.state.focusedLesson &&
+          <LessonContentContainer focusedLesson={this.state.focusedLesson} />
         }
 
       </div>
