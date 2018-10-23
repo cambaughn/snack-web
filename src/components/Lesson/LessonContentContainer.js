@@ -47,7 +47,7 @@ class LessonContentContainer extends Component {
           <QuestionList questions={this.state.questions} />
         }
         { this.state.text &&
-          <ReadingLessonEditor text={this.state.text} lessonId={this.props.focusedLesson.id} />
+          <ReadingLessonEditor text={this.state.text} lesson={this.props.focusedLesson} />
         }
       </div>
     );
