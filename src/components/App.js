@@ -17,7 +17,8 @@ class App extends Component {
       lessons: [],
       questions: [],
       focusedPackId: null,
-      focusedLesson: null
+      focusedLesson: null,
+      focusedQuestion: null,
     }
 
     db.collection('packs').get()
@@ -37,8 +38,11 @@ class App extends Component {
 
   getLessons = (packId) => {
 
+    this.setState({ questions: [], focusedLesson: null, focusedQuestion: null });
+
     this.setState({ focusedPackId: packId });
 
+    // .orderBy("order")
     db.collection('lessons').where('pack_id', '==', packId).get()
     .then(snapshot => {
       let lessons = snapshot.docs.map(doc => {
@@ -47,12 +51,18 @@ class App extends Component {
       this.setState({ lessons });
     })
     .catch(error => {
-      console.log('Error => ', error);
+      console.log(error);
     })
   }
 
   setFocusedLesson = (focusedLesson) => {
+    console.log(focusedLesson)
     this.setState({ focusedLesson });
+  }
+
+  setFocusedQuestion = (focusedQuestion) => {
+    console.log('question => ', focusedQuestion)
+    this.setState({ focusedQuestion });
   }
 
 
@@ -66,7 +76,11 @@ class App extends Component {
         }
 
         { this.state.focusedLesson &&
-          <LessonContentContainer focusedLesson={this.state.focusedLesson} />
+          <LessonContentContainer
+            focusedLesson={this.state.focusedLesson}
+            setFocusedQuestion={this.setFocusedQuestion}
+            focusedQuestion={this.state.focusedQuestion}
+          />
         }
 
       </div>

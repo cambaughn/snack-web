@@ -15,11 +15,13 @@ class ReadingLessonEditor extends Component {
   }
 
   handleSave = () => {
-    console.log('saving');
     db.collection('lessons').doc(this.props.lesson.id).set({
       title: this.state.title,
       text: this.state.text
-    }, { merge: true });
+    }, { merge: true })
+    .then(() => {
+      this.setState({ saved: true })
+    });
   }
 
   handleTitleChange = (event) => {
@@ -73,16 +75,21 @@ const styles = {
 
     fontSize: '1.5em',
     fontWeight: 'bold',
+
+    marginBottom: 20,
   },
 
   textarea: {
     width: '50vw',
-    boxSizing: 'border-box',
     height: '100%',
+    boxSizing: 'border-box',
+
+    marginBottom: 40,
+    paddingRight: 20,
 
     fontSize: '1.1em',
 
-    lineHeight: 3,
+    lineHeight: 2,
 
     border: 'none',
     overflow: 'auto',

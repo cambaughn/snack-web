@@ -4,6 +4,7 @@ import db from '../../firebase/firebaseInit.js';
 
 import QuestionList from '../Question/QuestionList';
 import ReadingLessonEditor from '../Reading/ReadingLessonEditor';
+import DrillEditor from '../Drill/DrillEditor';
 
 class LessonContentContainer extends Component {
 
@@ -42,12 +43,16 @@ class LessonContentContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ display: 'flex' }}>
         { this.state.questions.length > 0 &&
-          <QuestionList questions={this.state.questions} />
+          <QuestionList questions={this.state.questions} setFocusedQuestion={this.props.setFocusedQuestion} />
         }
         { this.state.text &&
           <ReadingLessonEditor text={this.state.text} lesson={this.props.focusedLesson} />
+        }
+
+        { this.props.focusedQuestion &&
+          <DrillEditor question={this.props.focusedQuestion} />
         }
       </div>
     );

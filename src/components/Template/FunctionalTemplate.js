@@ -9,4 +9,10 @@ const Template = () => {
   )
 }
 
+const styles = {
+  container: {
+
+  },
+}
+
 export default Template;

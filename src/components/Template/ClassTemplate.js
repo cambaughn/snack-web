@@ -20,4 +20,10 @@ class Template extends Component {
   }
 }
 
+const styles = {
+  container: {
+
+  },
+}
+
 export default Template;
