@@ -56,12 +56,28 @@ class App extends Component {
   }
 
   setFocusedLesson = (focusedLesson) => {
-    console.log(focusedLesson)
-    this.setState({ focusedLesson });
+    if (focusedLesson.type === 'drill') {
+      this.getQuestions(focusedLesson);
+    } else {
+      this.setState({ focusedLesson: focusedLesson })
+    }
+
+  }
+
+  getQuestions = (focusedLesson) => {
+    db.collection('questions').where('lesson_id', '==', focusedLesson.id).get()
+    .then(snapshot => {
+      let questions = snapshot.docs.map(doc => {
+        return { ...doc.data(), id: doc.id }
+      });
+      this.setState({ questions, focusedLesson })
+    })
+    .catch(error => {
+      console.log('Error => ', error);
+    })
   }
 
   setFocusedQuestion = (focusedQuestion) => {
-    console.log('question => ', focusedQuestion)
     this.setState({ focusedQuestion });
   }
 
@@ -80,6 +96,7 @@ class App extends Component {
             focusedLesson={this.state.focusedLesson}
             setFocusedQuestion={this.setFocusedQuestion}
             focusedQuestion={this.state.focusedQuestion}
+            questions={this.state.questions}
           />
         }
 
