@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Plus } from 'react-feather';
 
 import './Packs.css';
 
@@ -10,7 +11,10 @@ class Packs extends Component {
       <div className='sidebar-container'>
         <div>
           <h1 className='header'>Snack</h1>
-          <h4>Packs</h4>
+          <div style={styles.headerWrapper}>
+            <h4>Packs</h4>
+            <Plus size={20} style={styles.plus} />
+          </div>
           { this.props.packs.map(pack => (
             <div key={pack.id} onClick={() => this.props.getLessons(pack.id)} className='link'>
               <p>{pack.name}</p>
@@ -20,6 +24,19 @@ class Packs extends Component {
       </div>
     );
   }
+}
+
+const styles = {
+  headerWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  plus: {
+    cursor: 'pointer',
+  },
 }
 
 export default Packs;
