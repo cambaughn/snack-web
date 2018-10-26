@@ -12,7 +12,7 @@ class LessonList extends Component {
       <div className='lessons-container'>
         <div style={styles.headerWrapper}>
           <h4>Lessons</h4>
-          <Plus size={20} style={styles.plus} />
+          <Plus size={20} style={styles.plus} onClick={() => this.props.toggleModal('lesson')} />
         </div>
         { this.props.lessons.map(lesson => (
           <LessonListItem lesson={lesson} key={lesson.id} setFocusedLesson={this.props.setFocusedLesson} />

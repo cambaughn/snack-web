@@ -13,11 +13,11 @@ class Packs extends Component {
           <h1 className='header'>Snack</h1>
           <div style={styles.headerWrapper}>
             <h4>Packs</h4>
-            <Plus size={20} style={styles.plus} />
+            <Plus size={20} style={styles.plus} onClick={() => this.props.toggleModal('pack')} />
           </div>
           { this.props.packs.map(pack => (
             <div key={pack.id} onClick={() => this.props.getLessons(pack.id)} className='link'>
-              <p>{pack.name}</p>
+              <p>{pack.title}</p>
             </div>
           ))}
         </div>

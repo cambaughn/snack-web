@@ -5,6 +5,7 @@ import './App.css';
 import Packs from './Packs/Packs';
 import LessonList from './Lesson/LessonList';
 import LessonContentContainer from './Lesson/LessonContentContainer';
+import AddContentModal from './Modal/AddContentModal';
 
 import db from '../firebase/firebaseInit.js';
 
@@ -19,8 +20,23 @@ class App extends Component {
       focusedPackId: null,
       focusedLesson: null,
       focusedQuestion: null,
+      showModal: false,
+      modalType: null,
     }
 
+    this.getPacks();
+  }
+
+  toggleModal = (modalType) => {
+    let stateObject = { showModal: !this.state.showModal }
+    if (modalType) {
+      stateObject.modalType = modalType;
+    }
+    this.setState(stateObject);
+  }
+
+
+  getPacks = () => {
     db.collection('packs').get()
     .then(snapshot => {
       let packs = [];
@@ -33,6 +49,10 @@ class App extends Component {
 
       this.setState({ packs });
     })
+  }
+
+  addPack = (title) => {
+
   }
 
 
@@ -56,7 +76,6 @@ class App extends Component {
   }
 
   setFocusedLesson = (focusedLesson) => {
-    console.log(focusedLesson)
     this.setState({ focusedLesson });
   }
 
@@ -69,10 +88,10 @@ class App extends Component {
   render() {
     return (
       <div className="app-container">
-        <Packs packs={this.state.packs} getLessons={this.getLessons} />
+        <Packs packs={this.state.packs} getLessons={this.getLessons} toggleModal={this.toggleModal} />
 
         { this.state.lessons.length > 0 &&
-          <LessonList lessons={this.state.lessons} setFocusedLesson={this.setFocusedLesson} />
+          <LessonList lessons={this.state.lessons} setFocusedLesson={this.setFocusedLesson} toggleModal={this.toggleModal} />
         }
 
         { this.state.focusedLesson &&
@@ -80,7 +99,12 @@ class App extends Component {
             focusedLesson={this.state.focusedLesson}
             setFocusedQuestion={this.setFocusedQuestion}
             focusedQuestion={this.state.focusedQuestion}
+            toggleModal={this.toggleModal}
           />
+        }
+
+        { this.state.showModal &&
+          <AddContentModal toggleModal={this.toggleModal} modalType={this.state.modalType} getPacks={this.getPacks} />
         }
 
       </div>
