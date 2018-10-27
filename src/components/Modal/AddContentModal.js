@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { X } from 'react-feather';
 
 import AddPack from './AddPack';
+import AddLesson from './AddLesson';
 
 class AddContentModal extends Component {
 
@@ -13,6 +14,10 @@ class AddContentModal extends Component {
           <X onClick={this.props.toggleModal} style={styles.x} size={20} />
           { this.props.modalType === 'pack' &&
             <AddPack toggleModal={this.props.toggleModal} getPacks={this.props.getPacks} />
+          }
+
+          { this.props.modalType === 'lesson' &&
+            <AddLesson toggleModal={this.props.toggleModal} getLessons={this.props.getLessons} focusedPackId={this.props.focusedPackId} />
           }
         </div>
       </div>

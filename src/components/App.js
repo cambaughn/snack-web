@@ -51,9 +51,6 @@ class App extends Component {
     })
   }
 
-  addPack = (title) => {
-
-  }
 
 
   getLessons = (packId) => {
@@ -104,7 +101,13 @@ class App extends Component {
         }
 
         { this.state.showModal &&
-          <AddContentModal toggleModal={this.toggleModal} modalType={this.state.modalType} getPacks={this.getPacks} />
+          <AddContentModal
+            toggleModal={this.toggleModal}
+            modalType={this.state.modalType}
+            getPacks={this.getPacks}
+            getLessons={this.getLessons}
+            focusedPackId={this.state.focusedPackId}
+          />
         }
 
       </div>
